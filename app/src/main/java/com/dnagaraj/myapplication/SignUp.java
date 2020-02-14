@@ -24,7 +24,7 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "SignUp";
 
     EditText etName,etPunchSpeed,etPunchPower,etKickSpeed,etKickPower;
-    Button save;
+    Button save, btnSwitchActivity;
     TextView tvGetData, tvGetAlldata;
 
     String data;
@@ -42,9 +42,18 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
         etKickPower=findViewById(R.id.etKickPower);
         tvGetData=findViewById(R.id.tvGetData);
         tvGetAlldata=findViewById(R.id.tvGetAllData);
+        btnSwitchActivity=findViewById(R.id.btnSwitchActivity);
 
         save.setOnClickListener(this);
 
+        btnSwitchActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+
+        //To get data for individual object id
         tvGetData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,21 +63,26 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
                     @Override
                     public void done(ParseObject object, ParseException e) {
                         if(object!=null && e==null){
-                            tvGetData.setText(object.getString("name")+"\n"+"Punch_Speed: "+object.getInt("punch_speed")+"\n"+"Punch_power: "+object.getInt("punch_power")+"\n"+
-                                    "Kick_Speed: "+object.getInt("kick_speed")+"\n"+"Kick_power: "+object.getInt("kick_power"));
+                            tvGetData.setText(object.getString("name")+"\n"+"Punch_Speed: "+object.getInt("punch_speed")+"\n"
+                                    +"Punch_power: "+object.getInt("punch_power")+"\n"+
+                                    "Kick_Speed: "+object.getInt("kick_speed")+"\n"+"Kick_power: "+
+                                    object.getInt("kick_power"));
                         }
                     }
                 });
             }
         });
 
+        //To get all data at once
         data="";
         tvGetAlldata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //data="";
                 ParseQuery<ParseObject> queryAll=ParseQuery.getQuery("KickBoxer");
-                // To get all data at once
+                //Getting data on some condition
+                queryAll.whereGreaterThan("punch_speed",200);
+                queryAll.setLimit(2);  //No of entries, eg: here 2 entries displays
+
                 queryAll.findInBackground(new FindCallback<ParseObject>() {
                     @Override
                     public void done(List<ParseObject> objects, ParseException e) {
