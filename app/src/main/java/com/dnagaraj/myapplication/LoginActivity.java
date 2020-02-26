@@ -65,6 +65,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.btnSignupAct:
+                Intent intent=new Intent(LoginActivity.this,SignUp.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -83,5 +85,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void transitionToSocialMediaActivity(){
         Intent intent=new Intent(LoginActivity.this,SocialMediaActivity.class);
         startActivity(intent);
+
+        //To avoid user to come back to this activity when back button is pressed.
+        //User should come to this activity only he logout.
+        finish();
     }
 }

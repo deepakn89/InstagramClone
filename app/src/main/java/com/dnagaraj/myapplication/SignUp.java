@@ -120,5 +120,9 @@ public class SignUp extends AppCompatActivity implements View.OnClickListener{
     private void transitionToSocialMediaActivity(){
         Intent intent=new Intent(SignUp.this,SocialMediaActivity.class);
         startActivity(intent);
+
+        //To avoid user to come back to this activity when back button is pressed.
+        //User should come to this activity only he logout.
+        finish();
     }
 }
